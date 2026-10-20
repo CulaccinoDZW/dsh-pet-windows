@@ -6,6 +6,9 @@
 > 素材（动画 / 表情包）版权归上游作者，按上游声明「允许开源使用，禁止商用」。
 
 ![右键菜单](docs/screenshots/context-menu.png)
+![待办提醒](docs/screenshots/todo-reminder.png)
+![整点报时](docs/screenshots/clock.png)
+![安装界面](docs/screenshots/installer.png)
 
 ## 和原版有什么不一样
 
