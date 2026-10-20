@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>待办提醒</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: transparent; overflow: hidden; }
+  body { font-family: "Microsoft YaHei UI", "Microsoft YaHei", sans-serif; -webkit-user-select: none; user-select: none; }
+  #stage { position: fixed; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #dim { position: fixed; inset: 0; background: radial-gradient(circle at 50% 55%, rgba(12, 30, 56, .12), rgba(8, 20, 40, .45)); }
+  #pet-wrap { position: relative; height: 78vh; width: auto; display: flex; align-items: flex-end; justify-content: center; }
+  #pet { height: 100%; width: auto; object-fit: contain; filter: drop-shadow(0 26px 46px rgba(6, 20, 40, .45)); }
+  #bubble {
+    position: relative; margin-bottom: 18px; max-width: min(760px, 84vw);
+    background: linear-gradient(170deg, #f8fcff, #e3f0fd);
+    border: 2px solid rgba(255,255,255,.96); border-radius: 22px;
+    box-shadow: 0 18px 44px rgba(10, 30, 60, .4);
+    padding: 16px 24px 14px; text-align: center; color: #16375e;
+    animation: pop .32s cubic-bezier(.2,.9,.3,1.3);
+  }
+  #bubble::after {
+    content: ""; position: absolute; left: 50%; bottom: -12px; margin-left: -10px;
+    border: 10px solid transparent; border-top-color: #e3f0fd; border-bottom: 0;
+  }
+  #head { font-size: 15px; letter-spacing: 3px; color: #3d6b9c; font-weight: 700; }
+  #title { margin-top: 6px; font-size: 34px; font-weight: 800; line-height: 1.25; letter-spacing: 1px; }
+  #hint { margin-top: 10px; font-size: 14px; color: #2f6fb2; opacity: .9; }
+  #hint b { color: #1b4a7d; }
+  #close { position: fixed; z-index: 10; right: 22px; top: 18px; width: 40px; height: 40px; border: 0; border-radius: 20px;
+    background: rgba(255,255,255,.82); color: #1b4a7d; font-size: 22px; cursor: pointer; box-shadow: 0 8px 20px rgba(8,24,48,.3); }
+  #clock-badge { position: fixed; left: 22px; top: 18px; padding: 8px 16px; border-radius: 16px;
+    background: rgba(255,255,255,.85); color: #16406f; font-size: 15px; font-weight: 700; box-shadow: 0 8px 20px rgba(8,24,48,.3); }
+  @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
+</style>
+</head>
+<body>
+<div id="dim"></div>
+<div id="clock-badge">🐳 待办提醒</div>
+<button id="close" title="关闭">×</button>
+<div id="stage">
+  <div id="bubble">
+    <div id="head">鲸 鱼 娘 提 醒 你</div>
+    <div id="title">待办</div>
+    <div id="hint">点击这里 <b>查看详情</b>（按 Esc 关闭）</div>
+  </div>
+  <div id="pet-wrap"><video id="pet" autoplay loop muted playsinline></video></div>
+</div>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var title = q.get('title') || '待办提醒';
+    var anim = q.get('anim') || '抽陀螺';
+    var id = q.get('id') || '';
+    var base = q.get('base') || '';
+    document.getElementById('title').textContent = title;
+    var v = document.getElementById('pet');
+    v.src = base + '/anim-file?name=' + encodeURIComponent(anim);
+    v.play().catch(function () {});
+
+    function openDetail() {
+      try { if (window.petBridge && window.petBridge.todoOpen) window.petBridge.todoOpen(id); } catch (e) {}
+      closeSelf();
+    }
+    function closeSelf() {
+      try { if (window.petBridge && window.petBridge.todoClose) window.petBridge.todoClose(); } catch (e) { window.close(); }
+    }
+    document.getElementById('bubble').addEventListener('click', openDetail);
+    document.getElementById('pet-wrap').addEventListener('click', openDetail);
+    document.getElementById('close').addEventListener('click', closeSelf);
+// overlay-z-v14：点空白处也能关（气泡除外）
+document.addEventListener('click', function (e) { if (e.target && e.target.closest && e.target.closest('#bubble, #close')) return; closeSelf(); }, true);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeSelf();
+    });
+    // 兜底：60 秒后自动收起（避免一直挡着屏幕）
+    setTimeout(closeSelf, 60000);
+  })();
+</script>
+</body>
+</html>
