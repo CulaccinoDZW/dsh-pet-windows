@@ -5,10 +5,8 @@
 > 本项目是**非官方**的 Windows 打包/改造版，基于上游 MIT 项目二次开发，完全免费、**不做商用**。
 > 素材（动画 / 表情包）版权归上游作者，按上游声明「允许开源使用，禁止商用」。
 
-![右键菜单](docs/screenshots/context-menu.png)
-![待办提醒](docs/screenshots/todo-reminder.png)
-![整点报时](docs/screenshots/clock.png)
-![安装界面](docs/screenshots/installer.png)
+
+
 
 ## 和原版有什么不一样
 
@@ -90,4 +88,5 @@ node src\patch_sprite_extra.mjs app
 
 ## 免责声明
 
-软件按「原样」提供，不附带任何担保。因使用本软件造成的任何直接或间接损失，作者不承担责任。
+1.软件按「原样」提供，不附带任何担保。因使用本软件造成的任何直接或间接损失，作者不承担责任。
+2.作者完全小白，上传github和修改软件全程ai操作，作者本人只提供了提示词给ai，难免会有bug和漏洞，有任何异常欢迎联系作者修改 168767147@qq.com
