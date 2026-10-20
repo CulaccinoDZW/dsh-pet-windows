@@ -71,7 +71,7 @@ if (s.includes('join(dshHome, "dsh-pet-standalone")')) {
 
 // 独立版 AI 配置：<DSH_HOME>/dsh-pet-standalone/ai-config.json（与 DSH 分开，旧路径迁移一次）
 let s3 = readText(standalonePath);
-if (s3.includes('petAiConfigPath() {\n\treturn join(petDshHome(), "dsh-pet-standalone"')) {
+if (/petAiConfigPath\(\)\s*\{\s*\r?\n\treturn join\(petDshHome\(\), "dsh-pet-standalone"/.test(s3)) {
   console.log("[skip] AI 配置已是独立路径");
 } else {
   s3 = replaceOnce(
