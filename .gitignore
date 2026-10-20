@@ -1,0 +1,16 @@
+# 构建产物
+DSH-Pet-Windows/
+*.zip
+payload.tar.zst
+payload.zip
+*.exe
+*.log
+dshnotify.state
+notify.state
+installed.flag
+
+# 工具与临时文件
+tools/
+*.bak
+*.bak-*
+__pycache__/
