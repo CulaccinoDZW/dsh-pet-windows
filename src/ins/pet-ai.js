@@ -11,42 +11,11 @@ function petDshHome() {
 function petAiConfigPath() {
 	return join(petDshHome(), "dsh-pet-standalone", "ai-config.json");
 }
-/** 旧版共用路径（迁移用）：<DSH_HOME>/dsh-pet/ai-config.json */
-function petAiLegacyConfigPath() {
-	return join(petDshHome(), "dsh-pet", "ai-config.json");
-}
-/** 取 DeepSeek API Key：环境变量优先，其次 DSH 的 .credentials.yaml */
-function petCredentialsKey() {
-	const env = String(process.env.DEEPSEEK_API_KEY ?? "").trim();
-	if (env !== "") return env;
-	try {
-		const raw = readFileSync(join(petDshHome(), ".credentials.yaml"), "utf8");
-		for (const line of raw.split(/\r?\n/)) {
-			const m = /^\s*DEEPSEEK_API_KEY\s*:\s*(.*)$/.exec(line);
-			if (!m) continue;
-			let v = String(m[1] ?? "").trim();
-			if ((v.startsWith("\"") && v.endsWith("\"")) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1).trim();
-			if (v !== "") return v;
-		}
-	} catch {}
-	return "";
-}
+/** 【安全】独立版不读取本机任何全局凭据（.credentials.yaml / 环境变量都不读），只认自己的 ai-config.json */
+function petCredentialsKey() { return ""; }  // 安全：不读取本机任何全局凭据
 /** 读/建 AI 配置（首次运行自动写盘；没有 key 也不阻断启动，只告警） */
 function loadPetAiConfig(logger) {
 	const file = petAiConfigPath();
-	// 从旧共用路径迁移一次（用户填过的 key/模型不丢），之后两边各改各的
-	if (!existsSync(file)) {
-		const legacy = petAiLegacyConfigPath();
-		try {
-			if (existsSync(legacy)) {
-				mkdirSync(dirname(file), { recursive: true });
-				writeFileSync(file, readFileSync(legacy, "utf8"), "utf8");
-				logger?.info?.(`[dsh-pet] 已把旧 AI 配置复制为独立版配置：${file}`);
-			}
-		} catch (e) {
-			logger?.warn?.(`[dsh-pet] 迁移旧 AI 配置失败：${e instanceof Error ? e.message : String(e)}`);
-		}
-	}
 	const cfg = {
 		baseURL: PET_AI_DEFAULT_BASE_URL,
 		model: PET_AI_DEFAULT_MODEL,
@@ -84,7 +53,7 @@ function loadPetAiConfig(logger) {
 	} catch (e) {
 		logger?.warn?.(`[dsh-pet] 写 ai-config.json 失败：${e instanceof Error ? e.message : String(e)}`);
 	}
-	if (cfg.apiKey === "") logger?.warn?.("[dsh-pet] 未找到 DeepSeek API Key（ai-config.json / DEEPSEEK_API_KEY / .credentials.yaml），碎碎念与对话会报错");
+	if (cfg.apiKey === "") logger?.warn?.("[dsh-pet] 未配置 DeepSeek API Key（只认它自己的 ai-config.json，不读取本机其它凭据），碎碎念与对话会报错");
 	return cfg;
 }
 /** 把宿主侧 message 结构压成 OpenAI messages */
