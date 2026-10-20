@@ -1,6 +1,6 @@
 ﻿DSH 桌宠（dsh-pet 独立版）使用说明
 ====================================
-版本：v0.3.7-pack.13（DeepSeek Harness dsh-pet 插件的 Windows 独立打包版）
+版本：v0.3.7-pack.14（DeepSeek Harness dsh-pet 插件的 Windows 独立打包版）
 项目：github.com/PC2005-cloud/dsh-pet（MIT）
 
 这是什么
@@ -114,7 +114,7 @@ AI 对话与碎碎念（直连 DeepSeek API）
 不存在就用程序内置默认配置（右上角、大小 462）；第一次运行会从 DSH 那份复制一份。
 display 需要是 "desktop" 或 "both" 才会出现在桌面（设为 none 时本版也会兜底显示）。
 
-体积与精简说明（v0.3.7-pack.13）
+体积与精简说明（v0.3.7-pack.14）
 ------------------------------
 安装后约 324 MB，安装包约 151 MB（上一版分别是 418 MB / 206 MB）。做了这些精简：
   · 语言包只留 zh-CN 与 en-US（原来 50 个语言包占 47 MB，省 44 MB）
@@ -137,7 +137,7 @@ vk_swiftshader.dll / vulkan-1.dll 放回来再试。
   点“更多信息 → 仍要运行”。这是 SmartScreen 对未签名程序的通用提示，
   不是杀毒软件报毒。
 
-常见问题
+常见问题（卸载：默认会删除 .dsh\dsh-pet-standalone 内的全部配置与 API Key；想保留请用 Uninstall.exe /keepdata）
 --------
 - 双击没反应？看任务管理器里有没有 electron.exe（命令行含本目录
   app\lib\standalone.js）；卡住就先结束这些进程再试。
