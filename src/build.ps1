@@ -98,6 +98,12 @@ Write-Host '=== 3n/7 API Key 保存即生效（patch_v14）==='
 
 Write-Host '=== 3o/7 Key 自动识别端点（patch_v15）==='
 & $node (Join-Path $build 'patch_v15.mjs') (Join-Path $out 'app')
+
+Write-Host '=== 3p/7 断开 DSH 后隐藏余额 + 不弹提示（patch_v16）==='
+& $node (Join-Path $build 'patch_v16.mjs') (Join-Path $out 'app')
+
+Write-Host '=== 3q/7 余额菜单双保险（patch_v17）==='
+& $node (Join-Path $build 'patch_v17.mjs') (Join-Path $out 'app')
 Write-Host '=== 4/7 生成图标（白底抠成透明）==='
 & $python (Join-Path $build 'make_ico.py') (Join-Path $pkg 'assets\logo.png') (Join-Path $build 'app.ico') (Join-Path $out 'app\assets\logo-transparent.png')
 if ($LASTEXITCODE -ne 0) { throw 'icon generation failed' }
