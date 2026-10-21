@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 $root    = 'G:\文件\DSH工作区'
 $build   = Join-Path $root '.pet-build'
@@ -89,6 +89,15 @@ Write-Host '=== 3k/7 API Key 路由 / 报时尺寸 / 报时音回退（patch_v11
 & $node (Join-Path $build 'patch_v11.mjs') (Join-Path $out 'app')
 Write-Host '=== 3l/7 移除系统通知接管（patch_v12）==='
 & $node (Join-Path $build 'patch_v12.mjs') (Join-Path $out 'app')
+
+Write-Host '=== 3m/7 对话回落本地 API + via 标记（patch_v13）==='
+& $node (Join-Path $build 'patch_v13.mjs') (Join-Path $out 'app')
+
+Write-Host '=== 3n/7 API Key 保存即生效（patch_v14）==='
+& $node (Join-Path $build 'patch_v14.mjs') (Join-Path $out 'app')
+
+Write-Host '=== 3o/7 Key 自动识别端点（patch_v15）==='
+& $node (Join-Path $build 'patch_v15.mjs') (Join-Path $out 'app')
 Write-Host '=== 4/7 生成图标（白底抠成透明）==='
 & $python (Join-Path $build 'make_ico.py') (Join-Path $pkg 'assets\logo.png') (Join-Path $build 'app.ico') (Join-Path $out 'app\assets\logo-transparent.png')
 if ($LASTEXITCODE -ne 0) { throw 'icon generation failed' }
